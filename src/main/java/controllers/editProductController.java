@@ -45,7 +45,9 @@ public class editProductController extends HttpServlet{
             entityManager.merge(product);
             entityManager.getTransaction().commit();
 
-            resp.sendRedirect("product"); // Redirect to the product list page after successful update
+            var products = entityManager.createQuery("SELECT p FROM Products p", Products.class).getResultList();
+            req.setAttribute("products", products);
+            req.getRequestDispatcher("/page/home.jsp").forward(req, resp);
         } else {
             // Handle case when product is not found
         }
